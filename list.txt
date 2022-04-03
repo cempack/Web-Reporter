@@ -28,8 +28,7 @@ ff02::3 ip6-allhosts
 # Title: Hosts contributed by Elliot Moreau
 # https://www.website-reporter.duckdns.org
 adservice.google.co.inwww.exemple.com
-www.exemple.com
-0.0.0.0 www.exemple.com
-0.0.0.0 www.exemple.com
-0.0.0.0 www.exemple.com
-0.0.0.0 www.exemple.com
+||badsite.com^
+||badsite.com^
+||badsite.com^
+||badsite.com^

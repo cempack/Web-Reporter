@@ -1,5 +1,24 @@
+<?php
+if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')
+    $url = "https";
+else
+    $url = "http";
+
+// Ajoutez // à l'URL.
+$url .= "://";
+
+// Ajoutez l'hôte (nom de domaine, ip) à l'URL.
+$url .= $_SERVER['HTTP_HOST'];
+
+// Ajouter l'emplacement de la ressource demandée à l'URL
+$url .= $_SERVER['REQUEST_URI'];
+
+// Ajouter le chemin du fichier
+$url .= "list.txt";
+?>
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <title>Web-Reporter</title>
@@ -16,29 +35,32 @@
         </form>
         <br><br><br><br><br><br>
 
-        <?php 
+        <?php
         $file = new \SplFileObject('list.txt', 'r');
-        $file->seek(PHP_INT_MAX);        
+        $file->seek(PHP_INT_MAX);
         ?>
 
-        <?php  
+        <?php
         $monfichier = fopen('compteur.txt', 'r+');
 
-$pages_vues = fgets($monfichier); // On lit la première ligne (nombre de pages vues)
-$pages_vues += 1; // On augmente de 1 ce nombre de pages vues
-fseek($monfichier, 0); // On remet le curseur au début du fichier
-fputs($monfichier, $pages_vues); // On écrit le nouveau nombre de pages vues
+        $pages_vues = fgets($monfichier); // On lit la première ligne (nombre de pages vues)
+        $pages_vues += 1; // On augmente de 1 ce nombre de pages vues
+        fseek($monfichier, 0); // On remet le curseur au début du fichier
+        fputs($monfichier, $pages_vues); // On écrit le nouveau nombre de pages vues
 
-fclose($monfichier);
+        fclose($monfichier);
 
-echo '<p>This page has been viewed ' . $pages_vues . ' times !</p>';
-?>
-<?php  $blocked = $file->key() + 1 - 30; ?>
-<br><br>
-<h2>List of blocked domaines (There are <?php echo $blocked ?> domaines blocked in the Web-Reporter list)</h2>
-<textarea id="textArea">https://www.website-reporter.duckdns.org/list.txt</textarea>
-<button class="button" onclick="copyToClipBoard()">Copy</button>
-<script src="script.js"></script>
-</center>
+        echo '<p>This page has been viewed ' . $pages_vues . ' times !</p>';
+        ?>
+        <?php $blocked = $file->key() + 1 - 30; ?>
+        <br><br>
+        <h2>List of blocked domaines (There are <?php echo $blocked ?> domaines blocked in the Web-Reporter list)</h2>
+        <textarea id="textArea">
+            <?php echo "$url" ?>
+        </textarea>
+        <button class="button" onclick="copyToClipBoard()">Copy</button>
+        <script src="script.js"></script>
+    </center>
 </body>
+
 </html>
